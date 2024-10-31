@@ -1,0 +1,22 @@
+.message {
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  width: 60%;
+  margin-bottom: 8px;
+  color: rgba(0, 0, 0, 0.5);
+  .title {
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
+  .date {
+    text-align: end;
+  }
+}
+.right {
+  float: right;
+}
+.left {
+  float: left;
+}

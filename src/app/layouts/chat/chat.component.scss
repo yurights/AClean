@@ -1,0 +1,16 @@
+.chat {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  height: 85%;
+  // border: 1px dotted red;
+  * {
+    height: 100%;
+  }
+}
+.ch1 {
+  flex: 1;
+}
+.ch2 {
+  flex: 3;
+}
