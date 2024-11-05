@@ -23,7 +23,6 @@ export class ChatComponent implements OnInit {
       .subscribe((d) => {
         const data = JSON.parse(d as string);
         this.addMessage(data);
-        console.log('Trade data:', data);
       });
   }
 
