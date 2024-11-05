@@ -21,9 +21,4 @@ export class ChatComponent implements OnInit, OnDestroy {
     this.socketService.disconnectSocket();
   }
 
-  receiveSocketResponse() {
-    this.socketService.receiveStatus().subscribe((message: unknown) => {
-      console.log(message);
-    });
-  }
 }
