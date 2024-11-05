@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { ChatCardComponent } from '../chat-card/chat-card.component';
@@ -11,5 +11,5 @@ import { ChatCardComponent } from '../chat-card/chat-card.component';
   styleUrl: './chat-list.component.scss',
 })
 export class ChatListComponent {
- 
+  @Input() messages: string[] = [''];
 }
