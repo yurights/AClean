@@ -27,7 +27,7 @@ export class ChatComponent implements OnInit {
       });
   }
 
-  addMessage(message: string) {
+  addMessage(message: { p: string }) {
     if (this.messages.length >= 10) {
       this.messages = this.messages.slice(0, 9);
     }
