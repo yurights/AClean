@@ -20,10 +20,4 @@ export class ChatComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.socketService.disconnectSocket();
   }
-
-  receiveSocketResponse() {
-    this.socketService.receiveStatus().subscribe((message: unknown) => {
-      console.log(message);
-    });
-  }
 }
