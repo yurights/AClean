@@ -17,4 +17,10 @@
       font-size: 1em;
     }
   }
+
+  &-list {
+    :first-child {
+      background-color:#CFC;
+    }
+  }
 }

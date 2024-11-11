@@ -1,29 +1,30 @@
 import { Injectable } from '@angular/core';
-import { Socket } from 'ngx-socket-io';
+import { Observable } from 'rxjs';
+
 @Injectable({
   providedIn: 'root',
 })
 export class WebSocketService {
-  private webSocket: Socket;
-  private streamUrl = 'wss://stream.binance.com:9443/ws/btcusdt@trade';
-  constructor() {
-    this.webSocket = new Socket({
-      url: this.streamUrl,
-      options: {},
+  srcUrl = 'wss://stream.binance.com:9443/ws/btcusdt@trade';
+  private socket!: WebSocket;
+  // webSocket$ = null;
+  //constructor() {}
+
+  public createSocket() {
+    this.socket = new WebSocket(this.srcUrl);
+  }
+
+  public createStream(): Observable<unknown> {
+    const observable = new Observable((observer) => {
+      this.socket.onmessage = (event) => observer.next(event.data);
+      this.socket.onerror = (event) => observer.error(event);
+      this.socket.onclose = () => observer.complete();
     });
-  }
-  // this method is used to start connection/handhshake of socket with server
-  connectSocket(message: unknown) {
-    this.webSocket.emit('connect', message);
+
+    return observable;
   }
 
-  // this method is used to get response from server
-  receiveStatus() {
-    return this.webSocket.fromEvent('/get-response');
-  }
-
-  // this method is used to end web socket connection
-  disconnectSocket() {
-    this.webSocket.disconnect();
+  public disconnetctSockeet() {
+    this.socket.close();
   }
 }

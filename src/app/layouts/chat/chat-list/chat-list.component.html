@@ -3,6 +3,9 @@
     <input type="text" placeholder="search" />
   </div>
   <div class="bar-list">
-    <app-chat-card></app-chat-card>
+    @for (item of messages; track $index) {
+    <!-- <app-chat-card></app-chat-card> -->
+    <div>BTC : {{ item.slice(0,8) }} USD</div>
+    }
   </div>
 </section>
