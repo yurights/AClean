@@ -1,5 +1,8 @@
+import { messageDirections } from "./enums";
+
 export interface IChatMessage {
-    title: string;
-    text: string;
-    date: string;
+  text: string;
+  date: string;
+  userId: string;
+  direction: messageDirections;
 }
