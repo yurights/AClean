@@ -6,12 +6,14 @@ import { Observable } from 'rxjs';
 })
 export class WebSocketService {
   srcUrl = 'wss://stream.binance.com:9443/ws/btcusdt@trade';
-  private socket!: WebSocket;
+  src = 'wss://aclean-52e2f83f8d01.herokuapp.com/right-web-socket';
+  id = '657594958';
+   socket!: WebSocket;
   // webSocket$ = null;
   //constructor() {}
 
   public createSocket() {
-    this.socket = new WebSocket(this.srcUrl);
+    this.socket = new WebSocket(this.src);
   }
 
   public createStream(): Observable<unknown> {
@@ -24,7 +26,11 @@ export class WebSocketService {
     return observable;
   }
 
-  public disconnetctSockeet() {
+  public sendMessage(message: string) {
+    this.socket.send(message);
+  }
+
+  public disconnetctSocket() {
     this.socket.close();
   }
 }

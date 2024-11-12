@@ -1,8 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ChatListComponent } from './chat-list/chat-list.component';
 import { ChatLogComponent } from './chat-log/chat-log.component';
 import { WebSocketService } from '../../services/web-socket.service';
-import { debounceTime } from 'rxjs';
 
 @Component({
   selector: 'app-chat',
@@ -11,20 +10,9 @@ import { debounceTime } from 'rxjs';
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.scss',
 })
-export class ChatComponent implements OnInit {
+export class ChatComponent {
   messages: string[] = [];
   constructor(private socketService: WebSocketService) {}
-
-  ngOnInit(): void {
-    this.socketService.createSocket();
-    this.socketService
-      .createStream()
-      .pipe(debounceTime(500))
-      .subscribe((d) => {
-        const data = JSON.parse(d as string);
-        this.addMessage(data);
-      });
-  }
 
   addMessage(message: { p: string }) {
     if (this.messages.length >= 10) {
