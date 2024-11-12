@@ -3,8 +3,8 @@ import { ChatMessageComponent } from '../chat-message/chat-message.component';
 import { IChatMessage } from '../../../modesl/interfaces';
 import { WebSocketService } from '../../../services/web-socket.service';
 import { MatButtonModule } from '@angular/material/button';
-import {MatSnackBar, MatSnackBarModule} from '@angular/material/snack-bar';
-
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { format } from 'date-fns';
 
 @Component({
   selector: 'app-chat-log',
@@ -15,7 +15,10 @@ import {MatSnackBar, MatSnackBarModule} from '@angular/material/snack-bar';
 })
 export class ChatLogComponent implements OnInit, OnDestroy {
   id = '657594958';
-  constructor(private socketService: WebSocketService, private snackBar: MatSnackBar) {}
+  constructor(
+    private socketService: WebSocketService,
+    private snackBar: MatSnackBar
+  ) {}
 
   messages: IChatMessage[] = [];
 
@@ -31,7 +34,8 @@ export class ChatLogComponent implements OnInit, OnDestroy {
           const p = JSON.parse(d);
           this.messages.push(p);
         } else {
-            this.openSnackBar('Received empty message', 'close')
+          const now = format(new Date(), 'HH:mm:ss');
+          this.openSnackBar('Received empty message. ' + now, 'close');
         }
       });
     };
