@@ -1,6 +1,7 @@
 import {
   Component,
   ElementRef,
+  Input,
   OnDestroy,
   OnInit,
   ViewChild,
@@ -21,32 +22,34 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 export class ChatLogComponent implements OnInit, OnDestroy {
   private id = '657594958';
   @ViewChild('inputRef') inputArea!: ElementRef;
+  @Input() messages: IChatMessage[] = [];
 
   constructor(
     private socketService: WebSocketService,
     private snackBar: MatSnackBar
   ) {}
 
-  messages: IChatMessage[] = [];
+  // messages: IChatMessage[] = [];
 
   ngOnInit(): void {
-    this.socketService.createSocket();
+    // this.socketService.createSocket();
 
-    this.socketService.socket.onopen = () => {
-      this.socketService.sendMessage(this.id);
-      this.socketService.createStream().subscribe((d) => {
-        console.log('Incomming meassage: ', d);
-        this.handleSocketEmmission(d as string);
-      });
-    };
+    // this.socketService.socket.onopen = () => {
+    //   this.socketService.sendMessage(this.id);
+    //   this.socketService.createStream().subscribe((d) => {
+    //     console.log('Incomming meassage: ', d);
+    //     this.handleSocketEmmission(d as string);
+    //   });
+    // };
+    console.log()
   }
 
-  private handleSocketEmmission(message: string) {
-    if (!message) return;
-    this.skrollToArea();
-    const m = JSON.parse(message);
-    this.messages.push(m);
-  }
+  // private handleSocketEmmission(message: string) {
+  //   if (!message) return;
+  //   this.skrollToArea();
+  //   const m = JSON.parse(message);
+  //   this.messages.push(m);
+  // }
 
   private skrollToArea() {
     if (this.inputArea) {
