@@ -9,8 +9,6 @@ export class WebSocketService {
   src = 'wss://aclean-52e2f83f8d01.herokuapp.com/right-web-socket';
   id = '657594958';
    socket!: WebSocket;
-  // webSocket$ = null;
-  //constructor() {}
 
   public createSocket() {
     this.socket = new WebSocket(this.src);
