@@ -14,10 +14,8 @@ export class ChatComponent {
   messages: string[] = [];
   constructor(private socketService: WebSocketService) {}
 
-  addMessage(message: { p: string }) {
-    if (this.messages.length >= 10) {
-      this.messages = this.messages.slice(0, 9);
-    }
-    this.messages = [message.p, ...this.messages];
+  selectChat(ev: string) {
+    console.log(ev);
   }
+
 }

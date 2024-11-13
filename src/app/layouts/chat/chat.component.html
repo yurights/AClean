@@ -1,6 +1,6 @@
 <div class="chat">
   <div class="ch1">
-    <app-chat-list [messages]="messages"></app-chat-list>
+    <app-chat-list (selectChat)="selectChat($event)"></app-chat-list>
   </div>
   <div class="ch2"><app-chat-log></app-chat-log></div>
 </div>

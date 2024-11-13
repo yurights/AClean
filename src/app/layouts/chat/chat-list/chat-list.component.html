@@ -3,9 +3,20 @@
     <input type="text" placeholder="search" />
   </div>
   <div class="bar-list">
-    @for (item of messages; track $index) {
+    @for (chat of chats; track $index) {
     <!-- <app-chat-card></app-chat-card> -->
-    <div>BTC : {{ item.slice(0,8) }} USD</div>
+    <mat-card appearance="outlined">
+      <mat-card-content>
+        <div
+          tabindex="0"
+          (click)="onSelectChat(chat.chatId)"
+          (keydown.enter)="onSelectChat(chat.chatId)"
+        >
+          Chat id : {{ chat.chatId }}
+        </div>
+      </mat-card-content>
+    </mat-card>
+
     }
   </div>
 </section>
