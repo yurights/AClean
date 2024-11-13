@@ -1,10 +1,15 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { ChatMessageComponent } from '../chat-message/chat-message.component';
 import { IChatMessage } from '../../../modesl/interfaces';
 import { WebSocketService } from '../../../services/web-socket.service';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { format } from 'date-fns';
 
 @Component({
   selector: 'app-chat-log',
@@ -14,7 +19,9 @@ import { format } from 'date-fns';
   styleUrl: './chat-log.component.scss',
 })
 export class ChatLogComponent implements OnInit, OnDestroy {
-  id = '657594958';
+  private id = '657594958';
+  @ViewChild('inputRef') inputArea!: ElementRef;
+
   constructor(
     private socketService: WebSocketService,
     private snackBar: MatSnackBar
@@ -25,20 +32,26 @@ export class ChatLogComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.socketService.createSocket();
 
-    //  this.socketService.sendMessage('657594958')
     this.socketService.socket.onopen = () => {
       this.socketService.sendMessage(this.id);
       this.socketService.createStream().subscribe((d) => {
         console.log('Incomming meassage: ', d);
-        if (typeof d === 'string' && d !== '') {
-          const p = JSON.parse(d);
-          this.messages.push(p);
-        } else {
-          const now = format(new Date(), 'HH:mm:ss');
-          this.openSnackBar('Received empty message. ' + now, 'close');
-        }
+        this.handleSocketEmmission(d as string);
       });
     };
+  }
+
+  private handleSocketEmmission(message: string) {
+    if (!message) return;
+    this.skrollToArea();
+    const m = JSON.parse(message);
+    this.messages.push(m);
+  }
+
+  private skrollToArea() {
+    if (this.inputArea) {
+      this.inputArea.nativeElement.scrollIntoView();
+    }
   }
 
   openSnackBar(message: string, action: string) {
