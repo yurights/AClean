@@ -8,7 +8,7 @@
 
   &-search {
     overflow: hidden;
-    
+
     input {
       width: 100%;
       padding: 7px;
@@ -18,9 +18,15 @@
     }
   }
 
-  &-list {
-    :first-child {
-      background-color:#CFC;
-    }
+
+}
+
+.mat-mdc-card {
+  &-content {
+    padding: 8px;
+  }
+
+  &:hover {
+    background-color: #666de859;
   }
 }

@@ -1,8 +1,9 @@
 import {
   Component,
   ElementRef,
+  Input,
+  OnChanges,
   OnDestroy,
-  OnInit,
   ViewChild,
 } from '@angular/core';
 import { ChatMessageComponent } from '../chat-message/chat-message.component';
@@ -18,34 +19,17 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
   templateUrl: './chat-log.component.html',
   styleUrl: './chat-log.component.scss',
 })
-export class ChatLogComponent implements OnInit, OnDestroy {
-  private id = '657594958';
+export class ChatLogComponent implements OnDestroy, OnChanges {
   @ViewChild('inputRef') inputArea!: ElementRef;
+  @Input() messages: IChatMessage[] = [];
 
   constructor(
     private socketService: WebSocketService,
     private snackBar: MatSnackBar
   ) {}
 
-  messages: IChatMessage[] = [];
-
-  ngOnInit(): void {
-    this.socketService.createSocket();
-
-    this.socketService.socket.onopen = () => {
-      this.socketService.sendMessage(this.id);
-      this.socketService.createStream().subscribe((d) => {
-        console.log('Incomming meassage: ', d);
-        this.handleSocketEmmission(d as string);
-      });
-    };
-  }
-
-  private handleSocketEmmission(message: string) {
-    if (!message) return;
+  ngOnChanges(): void {
     this.skrollToArea();
-    const m = JSON.parse(message);
-    this.messages.push(m);
   }
 
   private skrollToArea() {

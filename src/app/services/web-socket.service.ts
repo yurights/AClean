@@ -7,10 +7,11 @@ import { Observable } from 'rxjs';
 export class WebSocketService {
   srcUrl = 'wss://stream.binance.com:9443/ws/btcusdt@trade';
   src = 'wss://aclean-52e2f83f8d01.herokuapp.com/right-web-socket';
-  id = '657594958';
-   socket!: WebSocket;
+  //id = '657594958';
+  socket!: WebSocket;
 
   public createSocket() {
+    if (this.socket) this.disconnetctSocket();
     this.socket = new WebSocket(this.src);
   }
 
