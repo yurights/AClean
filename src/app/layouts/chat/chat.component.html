@@ -2,5 +2,11 @@
   <div class="ch1">
     <app-chat-list (selectChat)="selectChat($event)"></app-chat-list>
   </div>
-  <div class="ch2"><app-chat-log [messages]="messages" [client]="clientId"></app-chat-log></div>
+  <div class="ch2">
+    <app-chat-log
+      [messages]="messages"
+      [client]="clientId"
+      (deleteChat)="clearChats()"
+    ></app-chat-log>
+  </div>
 </div>

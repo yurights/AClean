@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 export class WebSocketService {
   //srcUrl = 'wss://stream.binance.com:9443/ws/btcusdt@trade';
   src = 'wss://aclean-52e2f83f8d01.herokuapp.com/right-web-socket';
-  socket!: WebSocket;
+  private socket!: WebSocket;
 
   public createSocket() {
     this.socket = new WebSocket(this.src);
@@ -32,6 +32,21 @@ export class WebSocketService {
     this.socket.onopen = () => {
       this.socket.send(params);
     };
+  }
+
+  isSocketConnected() {
+    const res = this.socket && this.socket.readyState ? true: false;
+    return res;
+  }
+
+  clearChats() {
+    const params = `{"type": "delete_all_chats"}`;
+    if(this.isSocketConnected()){
+    this.socket.send(params);
+    }
+    else{
+      alert('FAILED')
+    }
   }
 
   public sendMessage(message: string) {

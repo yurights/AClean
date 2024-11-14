@@ -20,7 +20,7 @@ export class ChatComponent {
     this.messages = [];
     this.clientId = ev;
 
-    if (!this.socketService.socket) {
+    if (!this.socketService.isSocketConnected()) {
       this.socketService.createSocket();
     }
 
@@ -29,6 +29,10 @@ export class ChatComponent {
       console.log('Incomming meassage: ', d);
       this.handleSocketEmmission(d as string);
     });
+  }
+
+  clearChats() {
+    this.socketService.clearChats();
   }
 
   private handleSocketEmmission(message: string) {

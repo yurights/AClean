@@ -1,9 +1,11 @@
 import {
   Component,
   ElementRef,
+  EventEmitter,
   Input,
   OnChanges,
   OnDestroy,
+  Output,
   ViewChild,
 } from '@angular/core';
 import { ChatMessageComponent } from '../chat-message/chat-message.component';
@@ -21,6 +23,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 })
 export class ChatLogComponent implements OnDestroy, OnChanges {
   @ViewChild('inputRef') inputArea!: ElementRef;
+  @Output() deleteChat: EventEmitter<string> = new EventEmitter<string>();
   @Input() messages: IChatMessage[] = [];
   @Input() client = '';
 
@@ -31,6 +34,10 @@ export class ChatLogComponent implements OnDestroy, OnChanges {
 
   ngOnChanges(): void {
     this.skrollToArea();
+  }
+
+  clearChats(){
+    this.deleteChat.emit()
   }
 
   private skrollToArea() {
