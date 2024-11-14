@@ -50,7 +50,8 @@ export class WebSocketService {
   }
 
   public sendMessage(message: string) {
-    this.socket.send(message);
+    const p = `{"type": "send_message", "text": "${message}"}`
+    this.socket.send(p);
   }
 
   public disconnectSocket() {

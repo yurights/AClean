@@ -35,6 +35,10 @@ export class ChatComponent {
     this.socketService.clearChats();
   }
 
+  sendNewMessage(ev: string) {
+    this.socketService.sendMessage(ev);
+  }
+
   private handleSocketEmmission(message: string) {
     if (!message) return;
     const m = JSON.parse(message);

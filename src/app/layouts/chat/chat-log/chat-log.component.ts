@@ -24,6 +24,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 export class ChatLogComponent implements OnDestroy, OnChanges {
   @ViewChild('inputRef') inputArea!: ElementRef;
   @Output() deleteChat: EventEmitter<string> = new EventEmitter<string>();
+  @Output() sendMessage: EventEmitter<string> = new EventEmitter<string>();
   @Input() messages: IChatMessage[] = [];
   @Input() client = '';
 
@@ -36,8 +37,8 @@ export class ChatLogComponent implements OnDestroy, OnChanges {
     this.skrollToArea();
   }
 
-  clearChats(){
-    this.deleteChat.emit()
+  clearChats() {
+    this.deleteChat.emit();
   }
 
   private skrollToArea() {
@@ -55,6 +56,6 @@ export class ChatLogComponent implements OnDestroy, OnChanges {
   }
 
   send(value: string) {
-    this.socketService.sendMessage(value);
+    this.sendMessage.emit(value);
   }
 }
