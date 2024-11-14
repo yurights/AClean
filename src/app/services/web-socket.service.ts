@@ -5,13 +5,11 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class WebSocketService {
-  srcUrl = 'wss://stream.binance.com:9443/ws/btcusdt@trade';
+  //srcUrl = 'wss://stream.binance.com:9443/ws/btcusdt@trade';
   src = 'wss://aclean-52e2f83f8d01.herokuapp.com/right-web-socket';
-  //id = '657594958';
   socket!: WebSocket;
 
   public createSocket() {
-    if (this.socket) this.disconnetctSocket();
     this.socket = new WebSocket(this.src);
   }
 
@@ -25,11 +23,22 @@ export class WebSocketService {
     return observable;
   }
 
+  openChat(chatId: string) {
+    const params = `{"type": "open_chat", "id": ${chatId}}`;
+    if (this.socket.readyState !== 0) {
+      this.socket.send(params);
+      return;
+    }
+    this.socket.onopen = () => {
+      this.socket.send(params);
+    };
+  }
+
   public sendMessage(message: string) {
     this.socket.send(message);
   }
 
-  public disconnetctSocket() {
+  public disconnectSocket() {
     this.socket.close();
   }
 }

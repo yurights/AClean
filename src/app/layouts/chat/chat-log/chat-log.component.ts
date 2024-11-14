@@ -22,6 +22,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 export class ChatLogComponent implements OnDestroy, OnChanges {
   @ViewChild('inputRef') inputArea!: ElementRef;
   @Input() messages: IChatMessage[] = [];
+  @Input() client = '';
 
   constructor(
     private socketService: WebSocketService,
@@ -43,7 +44,7 @@ export class ChatLogComponent implements OnDestroy, OnChanges {
   }
 
   ngOnDestroy(): void {
-    this.socketService.disconnetctSocket();
+    this.socketService.disconnectSocket();
   }
 
   send(value: string) {
