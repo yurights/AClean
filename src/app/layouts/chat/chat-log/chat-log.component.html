@@ -1,6 +1,6 @@
 <div class="log">
   <div class="header">
-    <span>Алла - 341239</span>
+    <span>Client : {{ client }}</span>
     <input type="text" />
   </div>
   <div class="body">
@@ -12,6 +12,13 @@
       <!-- <app-chat-message></app-chat-message> -->
     </div>
     <div class="log_input">
+      <button
+        mat-flat-button
+        color="warn"
+        (click)="clearChats()"
+      >
+        CLEAR CHAT
+      </button>
       <textarea class="input-message" #inputRef></textarea>
       <button
         mat-stroked-button

@@ -13,19 +13,30 @@ import { IChatMessage } from '../../modesl/interfaces';
 })
 export class ChatComponent {
   messages: IChatMessage[] = [];
+  clientId = '';
   constructor(private socketService: WebSocketService) {}
 
   selectChat(ev: string) {
     this.messages = [];
-    this.socketService.createSocket();
+    this.clientId = ev;
 
-    this.socketService.socket.onopen = () => {
-      this.socketService.sendMessage(ev);
-      this.socketService.createStream().subscribe((d) => {
-        console.log('Incomming meassage: ', d);
-        this.handleSocketEmmission(d as string);
-      });
-    };
+    if (!this.socketService.isSocketConnected()) {
+      this.socketService.createSocket();
+    }
+
+    this.socketService.openChat(ev);
+    this.socketService.createStream().subscribe((d) => {
+      console.log('Incomming meassage: ', d);
+      this.handleSocketEmmission(d as string);
+    });
+  }
+
+  clearChats() {
+    this.socketService.clearChats();
+  }
+
+  sendNewMessage(ev: string) {
+    this.socketService.sendMessage(ev);
   }
 
   private handleSocketEmmission(message: string) {

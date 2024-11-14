@@ -5,13 +5,11 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class WebSocketService {
-  srcUrl = 'wss://stream.binance.com:9443/ws/btcusdt@trade';
+  //srcUrl = 'wss://stream.binance.com:9443/ws/btcusdt@trade';
   src = 'wss://aclean-52e2f83f8d01.herokuapp.com/right-web-socket';
-  //id = '657594958';
-  socket!: WebSocket;
+  private socket!: WebSocket;
 
   public createSocket() {
-    if (this.socket) this.disconnetctSocket();
     this.socket = new WebSocket(this.src);
   }
 
@@ -25,11 +23,38 @@ export class WebSocketService {
     return observable;
   }
 
-  public sendMessage(message: string) {
-    this.socket.send(message);
+  openChat(chatId: string) {
+    const params = `{"type": "open_chat", "id": ${chatId}}`;
+    if (this.socket.readyState !== 0) {
+      this.socket.send(params);
+      return;
+    }
+    this.socket.onopen = () => {
+      this.socket.send(params);
+    };
   }
 
-  public disconnetctSocket() {
+  isSocketConnected() {
+    const res = this.socket && this.socket.readyState ? true: false;
+    return res;
+  }
+
+  clearChats() {
+    const params = `{"type": "delete_all_chats"}`;
+    if(this.isSocketConnected()){
+    this.socket.send(params);
+    }
+    else{
+      alert('FAILED')
+    }
+  }
+
+  public sendMessage(message: string) {
+    const p = `{"type": "send_message", "text": "${message}"}`
+    this.socket.send(p);
+  }
+
+  public disconnectSocket() {
     this.socket.close();
   }
 }

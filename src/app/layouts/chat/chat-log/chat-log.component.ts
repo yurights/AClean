@@ -1,9 +1,11 @@
 import {
   Component,
   ElementRef,
+  EventEmitter,
   Input,
   OnChanges,
   OnDestroy,
+  Output,
   ViewChild,
 } from '@angular/core';
 import { ChatMessageComponent } from '../chat-message/chat-message.component';
@@ -21,7 +23,10 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 })
 export class ChatLogComponent implements OnDestroy, OnChanges {
   @ViewChild('inputRef') inputArea!: ElementRef;
+  @Output() deleteChat: EventEmitter<string> = new EventEmitter<string>();
+  @Output() sendMessage: EventEmitter<string> = new EventEmitter<string>();
   @Input() messages: IChatMessage[] = [];
+  @Input() client = '';
 
   constructor(
     private socketService: WebSocketService,
@@ -30,6 +35,10 @@ export class ChatLogComponent implements OnDestroy, OnChanges {
 
   ngOnChanges(): void {
     this.skrollToArea();
+  }
+
+  clearChats() {
+    this.deleteChat.emit();
   }
 
   private skrollToArea() {
@@ -43,10 +52,10 @@ export class ChatLogComponent implements OnDestroy, OnChanges {
   }
 
   ngOnDestroy(): void {
-    this.socketService.disconnetctSocket();
+    this.socketService.disconnectSocket();
   }
 
   send(value: string) {
-    this.socketService.sendMessage(value);
+    this.sendMessage.emit(value);
   }
 }
