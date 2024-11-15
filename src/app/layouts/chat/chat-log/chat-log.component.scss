@@ -20,9 +20,11 @@
 
     &-input {
       margin: 0 auto;
+      margin-top: 5px;
       width: 70%;
       display: flex;
       gap: 10px;
+      align-items: flex-end;
     }
   }
 }
@@ -32,6 +34,7 @@
   border-radius: 8px;
   padding: 4px;
   outline: none;
+  min-height: 30px;
 
   &:focus {
     border: 1px solid color(srgb 0 0 0 / 60%);

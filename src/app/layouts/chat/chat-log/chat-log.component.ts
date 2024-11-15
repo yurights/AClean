@@ -6,6 +6,7 @@ import {
   OnChanges,
   OnDestroy,
   Output,
+  SimpleChanges,
   ViewChild,
 } from '@angular/core';
 import { ChatMessageComponent } from '../chat-message/chat-message.component';
@@ -18,12 +19,17 @@ import { TextFieldModule } from '@angular/cdk/text-field';
 @Component({
   selector: 'app-chat-log',
   standalone: true,
-  imports: [ChatMessageComponent, MatButtonModule, MatSnackBarModule, TextFieldModule],
+  imports: [
+    ChatMessageComponent,
+    MatButtonModule,
+    MatSnackBarModule,
+    TextFieldModule,
+  ],
   templateUrl: './chat-log.component.html',
   styleUrl: './chat-log.component.scss',
 })
 export class ChatLogComponent implements OnDestroy, OnChanges {
-  @ViewChild('inputRef') inputArea!: ElementRef;
+  @ViewChild('chatLogRef') chatLog!: ElementRef;
   @Output() deleteChat: EventEmitter<string> = new EventEmitter<string>();
   @Output() sendMessage: EventEmitter<string> = new EventEmitter<string>();
   @Input() messages: IChatMessage[] = [];
@@ -34,17 +40,25 @@ export class ChatLogComponent implements OnDestroy, OnChanges {
     private snackBar: MatSnackBar
   ) {}
 
-  ngOnChanges(): void {
-    this.skrollToArea();
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log('CHANGES', changes);
+    this.scrollToArea();
+  }
+
+  getMessage() {
+    setTimeout(() => {
+      this.scrollToArea();
+    }, 500);
   }
 
   clearChats() {
     this.deleteChat.emit();
   }
 
-  private skrollToArea() {
-    if (this.inputArea) {
-      this.inputArea.nativeElement.scrollIntoView();
+  private scrollToArea() {
+    if (this.chatLog) {
+      const container = this.chatLog.nativeElement;
+      container.scrollTo({ top: container.scrollHeight, behavior: 'smooth' });
     }
   }
 
