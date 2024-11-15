@@ -20,8 +20,8 @@ export class ChatMessageComponent implements OnInit {
 
   ngOnInit(): void {
     this.messageAline =
-      this.message.direction === messageDirections.out
-        ? alignsTexts.right
-        : alignsTexts.left;
+      this.message.direction !== messageDirections.out
+        ? alignsTexts.left
+        : alignsTexts.right;
   }
 }
