@@ -6,6 +6,7 @@ export enum alignsTexts {
 export enum messageDirections {
   inc = 'INCOMING',
   out = 'OUTGOING',
+  bot = 'BOT'
 }
 
 

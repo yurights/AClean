@@ -1,25 +1,33 @@
 <div class="log">
-  <div class="header">
+  <div class="log__header">
     <span>Client : {{ client }}</span>
     <input type="text" />
   </div>
-  <div class="body">
-    <div class="log_list">
+  <div class="log__body">
+    <div class="log__body__list" #chatLogRef>
       @for (item of messages; track $index) {
-      <app-chat-message [message]="item"></app-chat-message>
+      <app-chat-message
+        [message]="item"
+        (messageCreated)="getMessage()"
+      ></app-chat-message>
       }
-
-      <!-- <app-chat-message></app-chat-message> -->
     </div>
-    <div class="log_input">
-      <button
-        mat-flat-button
-        color="warn"
-        (click)="clearChats()"
-      >
+    <div class="log__body-input">
+      <button mat-flat-button color="warn" (click)="clearChats()">
         CLEAR CHAT
       </button>
-      <textarea class="input-message" #inputRef></textarea>
+      <textarea
+        matInput
+        cols="100"
+        cdkTextareaAutosize
+        #autosize="cdkTextareaAutosize"
+        #inputRef
+        class="input-area"
+        (input)="autosize.resizeToFitContent(true)"
+        (keydown.enter)="
+          $event.preventDefault(); send(inputRef.value); inputRef.value = ''
+        "
+      ></textarea>
       <button
         mat-stroked-button
         (click)="send(inputRef.value); inputRef.value = ''"

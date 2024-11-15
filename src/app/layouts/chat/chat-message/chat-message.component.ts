@@ -1,6 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { IChatMessage } from '../../../modesl/interfaces';
 import { alignsTexts, messageDirections } from '../../../modesl/enums';
+import { format, parseISO } from 'date-fns'
 
 @Component({
   selector: 'app-chat-message',
@@ -11,17 +12,25 @@ import { alignsTexts, messageDirections } from '../../../modesl/enums';
 })
 export class ChatMessageComponent implements OnInit {
   @Input() message: IChatMessage = {
-    text: 'Наші майстри мають великий досвід у виведенні різних видів плям, включаючи  плями від домашніх улюбленців. Використовуємо сертифіковані екологічні    гіпоалергенні засоби, які ефективно видаляють плями та запахи. У нас були    випадки, коли вдавалося видалити навіть важкі плями, такі як кров або    мазут.',
+    text: 'Наші майстри мають великий досвід у виведенні різних видів плям.',
     date: '15:10',
     userId: '',
     direction: messageDirections.inc,
   };
+
+  @Output() messageCreated = new EventEmitter<string>()
+
   messageAline: alignsTexts = alignsTexts.right;
 
   ngOnInit(): void {
+
+    this.message.date = format(parseISO(this.message.date),'hh:mm')
+
+    this.messageCreated.emit(this.message.date)
+
     this.messageAline =
-      this.message.direction === messageDirections.out
-        ? alignsTexts.right
-        : alignsTexts.left;
+      this.message.direction !== messageDirections.out
+        ? alignsTexts.left
+        : alignsTexts.right;
   }
 }
