@@ -6,10 +6,15 @@
   width: 60%;
   margin-bottom: 8px;
   color: color(srgb 0 0 0 / 50%);
+  border-radius: 8px;
 
   .title {
-    padding-top: 8px;
+    padding-top: 4px;
     padding-bottom: 8px;
+  }
+
+  .text {
+    overflow-wrap: break-word;
   }
 
   .date {

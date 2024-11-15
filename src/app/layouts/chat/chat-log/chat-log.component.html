@@ -10,14 +10,20 @@
       }
     </div>
     <div class="log__body-input">
-      <button
-        mat-flat-button
-        color="warn"
-        (click)="clearChats()"
-      >
+      <button mat-flat-button color="warn" (click)="clearChats()">
         CLEAR CHAT
       </button>
-      <textarea class="input-message" #inputRef></textarea>
+      <!-- <textarea class="input-area" #inputRef cols="100"></textarea> -->
+      <textarea
+        matInput
+        cols="100"
+        cdkTextareaAutosize
+        #autosize="cdkTextareaAutosize"
+        #inputRef
+        cdkAutosizeMinRows="1"
+        cdkAutosizeMaxRows="5"
+        class="input-area"
+      ></textarea>
       <button
         mat-stroked-button
         (click)="send(inputRef.value); inputRef.value = ''"

@@ -13,11 +13,12 @@ import { IChatMessage } from '../../../modesl/interfaces';
 import { WebSocketService } from '../../../services/web-socket.service';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { TextFieldModule } from '@angular/cdk/text-field';
 
 @Component({
   selector: 'app-chat-log',
   standalone: true,
-  imports: [ChatMessageComponent, MatButtonModule, MatSnackBarModule],
+  imports: [ChatMessageComponent, MatButtonModule, MatSnackBarModule, TextFieldModule],
   templateUrl: './chat-log.component.html',
   styleUrl: './chat-log.component.scss',
 })
