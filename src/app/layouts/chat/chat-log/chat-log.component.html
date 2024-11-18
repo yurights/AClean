@@ -1,6 +1,7 @@
 <div class="log">
   <div class="log__header">
     <span>Client : {{ client }}</span>
+    <button class="delete" (click)="clearChats()">CLEAR CHAT</button>
     <input type="text" />
   </div>
   <div class="log__body">
@@ -13,12 +14,9 @@
       }
     </div>
     <div class="log__body-input">
-      <button mat-flat-button color="warn" (click)="clearChats()">
-        CLEAR CHAT
-      </button>
       <textarea
         matInput
-        cols="100"
+        cols="autosize"
         cdkTextareaAutosize
         #autosize="cdkTextareaAutosize"
         #inputRef
@@ -29,10 +27,14 @@
         "
       ></textarea>
       <button
-        mat-stroked-button
         (click)="send(inputRef.value); inputRef.value = ''"
+        class="send-button app-btn"
       >
-        Send
+        <mat-icon
+          aria-hidden="false"
+          aria-label="Example home icon"
+          fontIcon="send"
+        ></mat-icon>
       </button>
     </div>
   </div>
