@@ -19,9 +19,7 @@
     }
 
     &-input {
-      margin: 0 auto;
       margin-top: 5px;
-      width: 70%;
       display: flex;
       gap: 10px;
       align-items: flex-end;
@@ -31,12 +29,29 @@
 
 .input-area {
   border: 1px solid color(srgb 0 0 0 / 30%);
-  border-radius: 8px;
+  border-style: none;
   padding: 4px;
   outline: none;
   min-height: 30px;
+  width: 100%;
 
   &:focus {
-    border: 1px solid color(srgb 0 0 0 / 60%);
+    border: 1px solid var(--color-text-alt);
+  }
+}
+
+.delete {
+  background-color: var(--color-warn);
+  border-style: none;
+}
+
+.send-button {
+  line-height: 0;
+  color: var(--color-text-alt);
+   border: 1px solid var(--color-text-alt);
+
+  * {
+    margin: 0;
+    padding: 0;
   }
 }

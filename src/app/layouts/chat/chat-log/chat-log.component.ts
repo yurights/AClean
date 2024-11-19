@@ -15,6 +15,8 @@ import { WebSocketService } from '../../../services/web-socket.service';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { TextFieldModule } from '@angular/cdk/text-field';
+import { CommonModule } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-chat-log',
@@ -24,6 +26,8 @@ import { TextFieldModule } from '@angular/cdk/text-field';
     MatButtonModule,
     MatSnackBarModule,
     TextFieldModule,
+    CommonModule,
+    MatIconModule,
   ],
   templateUrl: './chat-log.component.html',
   styleUrl: './chat-log.component.scss',
