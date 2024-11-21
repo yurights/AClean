@@ -23,7 +23,6 @@ export class ChatMessageComponent implements OnInit {
   messageAline: alignsTexts = alignsTexts.right;
 
   ngOnInit(): void {
-    console.log('date -> ',this.message.date)
     this.message.date = format(parseISO(this.message.date),'HH:mm')
 
     this.messageCreated.emit(this.message.date)
