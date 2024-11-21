@@ -3,6 +3,8 @@ import { ChatListComponent } from './chat-list/chat-list.component';
 import { ChatLogComponent } from './chat-log/chat-log.component';
 import { WebSocketService } from '../../services/web-socket.service';
 import { IChatMessage } from '../../modesl/interfaces';
+import { NotificationService } from '../../services/notification.service';
+import { Observable, share } from 'rxjs';
 
 @Component({
   selector: 'app-chat',
@@ -14,7 +16,11 @@ import { IChatMessage } from '../../modesl/interfaces';
 export class ChatComponent {
   messages: IChatMessage[] = [];
   clientId = '';
-  constructor(private socketService: WebSocketService) {}
+  socetStream$!: Observable<unknown>;
+  constructor(
+    private socketService: WebSocketService,
+    private notificationService: NotificationService
+  ) {}
 
   selectChat(ev: string) {
     this.messages = [];
@@ -25,8 +31,17 @@ export class ChatComponent {
     }
 
     this.socketService.openChat(ev);
-    this.socketService.createStream().subscribe((d) => {
-      console.log('Incomming meassage: ', d);
+    this.socetStream$ = this.socketService.createStream().pipe(share());
+
+    setTimeout(() => {
+      this.socetStream$.subscribe((d) => {
+        if (d) {
+          this.notificationService.alertIncomingMessage();
+        }
+      });
+    }, 1000);
+
+    this.socetStream$.subscribe((d) => {
       this.handleSocketEmmission(d as string);
     });
   }
