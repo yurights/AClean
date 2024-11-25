@@ -5,6 +5,7 @@ import { WebSocketService } from '../../services/web-socket.service';
 import { IChatMessage } from '../../modesl/interfaces';
 import { NotificationService } from '../../services/notification.service';
 import { Observable, share } from 'rxjs';
+import { messageDirections } from '../../modesl/enums';
 
 @Component({
   selector: 'app-chat',
@@ -34,15 +35,19 @@ export class ChatComponent {
     this.socetStream$ = this.socketService.createStream().pipe(share());
 
     setTimeout(() => {
-      this.socetStream$.subscribe((d) => {
-        if (d) {
-          this.notificationService.alertIncomingMessage();
+      this.socetStream$.subscribe((socketData) => {
+        if (socketData) {
+          const message : {direction: string} = JSON.parse(socketData as string) ;
+          if(message.direction ===  messageDirections.inc){
+            this.notificationService.alertIncomingMessage();
+          }
+         
         }
       });
     }, 1000);
 
-    this.socetStream$.subscribe((d) => {
-      this.handleSocketEmmission(d as string);
+    this.socetStream$.subscribe((socketData) => {
+      this.handleSocketEmmission(socketData as string);
     });
   }
 
