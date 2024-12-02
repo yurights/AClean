@@ -1,10 +1,8 @@
 .bar {
-  background-color: #fef8e8;
   padding: 15px;
   display: flex;
   flex-direction: column;
   gap: 20px;
-  height: 100%;
 
   &-search {
     overflow: hidden;
