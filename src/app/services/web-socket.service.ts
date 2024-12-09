@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { WebSocketEventType as WSEType } from '../modesl/enums';
 
 @Injectable({
   providedIn: 'root',
@@ -24,7 +25,7 @@ export class WebSocketService {
   }
 
   openChat(chatId: string) {
-    const params = `{"type": "open_chat", "id": ${chatId}}`;
+    const params = `{"type": ${WSEType.OPEN}, "id": ${chatId}}`;
     if (this.socket.readyState !== 0) {
       this.socket.send(params);
       return;
@@ -35,22 +36,21 @@ export class WebSocketService {
   }
 
   isSocketConnected() {
-    const res = this.socket && this.socket.readyState ? true: false;
+    const res = this.socket && this.socket.readyState ? true : false;
     return res;
   }
 
   clearChats() {
-    const params = `{"type": "delete_all_chats"}`;
-    if(this.isSocketConnected()){
-    this.socket.send(params);
-    }
-    else{
-      alert('FAILED')
+    const params = `{"type": ${WSEType.DLETE}}`;
+    if (this.isSocketConnected()) {
+      this.socket.send(params);
+    } else {
+      alert('FAILED');
     }
   }
 
   public sendMessage(message: string) {
-    const p = `{"type": "send_message", "text": "${message}"}`
+    const p = `{"type": ${WSEType.SEND}, "text": "${message}"}`;
     this.socket.send(p);
   }
 
