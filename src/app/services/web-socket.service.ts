@@ -35,6 +35,17 @@ export class WebSocketService {
     };
   }
 
+  getChats() {
+    const params = `{"type": ${WSEType.LIST}}`;
+    if (this.socket.readyState !== 0) {
+      this.socket.send(params);
+      return;
+    }
+    this.socket.onopen = () => {
+      this.socket.send(params);
+    };
+  }
+
   isSocketConnected() {
     const res = this.socket && this.socket.readyState ? true : false;
     return res;
