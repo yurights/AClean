@@ -1,12 +1,13 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { IChatMessage } from '../../../modesl/interfaces';
 import { alignsTexts, messageDirections } from '../../../modesl/enums';
-import { format, parseISO } from 'date-fns'
+import { format, parseISO } from 'date-fns';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-chat-message',
   standalone: true,
-  imports: [],
+  imports: [MatTooltipModule],
   templateUrl: './chat-message.component.html',
   styleUrl: './chat-message.component.scss',
 })
@@ -18,14 +19,18 @@ export class ChatMessageComponent implements OnInit {
     direction: messageDirections.inc,
   };
 
-  @Output() messageCreated = new EventEmitter<string>()
+  messageTime = '';
+  messageDateTime = '';
+
+  @Output() messageCreated = new EventEmitter<string>();
 
   messageAline: alignsTexts = alignsTexts.right;
 
   ngOnInit(): void {
-    this.message.date = format(parseISO(this.message.date),'HH:mm')
+    this.messageTime = format(parseISO(this.message.date), 'HH:mm');
+    this.messageDateTime = format(parseISO(this.message.date), 'LLLL d, yyyy, HH:mm');
 
-    this.messageCreated.emit(this.message.date)
+    this.messageCreated.emit(this.message.date);
 
     this.messageAline =
       this.message.direction !== messageDirections.out

@@ -1,5 +1,7 @@
-<div class="message  {{messageAline}}">
-  <span class="title">{{message.direction === 'BOT' ? 'chat GPT': ''}}</span>
+<div class="message  {{ messageAline }}">
+  <span class="title">{{ message.direction === "BOT" ? "chat GPT" : "" }}</span>
   <span class="text">{{ message.text }}</span>
-  <span class="date">{{ message.date }}</span>
+  <span class="date">
+    <span matTooltip="{{ messageDateTime }}">{{ messageTime }}</span></span
+  >
 </div>

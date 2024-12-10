@@ -1,11 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ChatListComponent } from './chat-list/chat-list.component';
 import { ChatLogComponent } from './chat-log/chat-log.component';
 import { WebSocketService } from '../../services/web-socket.service';
 import { IChatMessage } from '../../modesl/interfaces';
 import { NotificationService } from '../../services/notification.service';
-import { Observable, share } from 'rxjs';
-import { messageDirections } from '../../modesl/enums';
+import { filter, Observable } from 'rxjs';
+import { messageDirections, WebSocketEventType } from '../../modesl/enums';
 
 @Component({
   selector: 'app-chat',
@@ -14,8 +14,9 @@ import { messageDirections } from '../../modesl/enums';
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.scss',
 })
-export class ChatComponent {
+export class ChatComponent implements OnInit, OnDestroy {
   messages: IChatMessage[] = [];
+  chats: { chatId: string }[] = [];
   clientId = '';
   socetStream$!: Observable<unknown>;
   constructor(
@@ -23,32 +24,46 @@ export class ChatComponent {
     private notificationService: NotificationService
   ) {}
 
+  ngOnInit(): void {
+    this.socketService.createSocket();
+    this.socetStream$ = this.socketService.createStream();
+    this.socketService.getChats();
+    this.socetStream$
+      .pipe(
+        filter((socketEvent) => {
+          if (!socketEvent) return false;
+          const resp: { chat_list: [] } = JSON.parse(socketEvent as string);
+          return WebSocketEventType.LIST in resp;
+        })
+      )
+      .subscribe((socketEvent) => {
+        const resp: { chat_list: [] } = JSON.parse(socketEvent as string);
+        this.chats = resp.chat_list.map((id) => ({ chatId: id }));
+      });
+  }
+  ngOnDestroy(): void {
+    this.socketService.disconnectSocket();
+  }
+
   selectChat(ev: string) {
     this.messages = [];
     this.clientId = ev;
-
-    if (!this.socketService.isSocketConnected()) {
-      this.socketService.createSocket();
-    }
-
     this.socketService.openChat(ev);
-    this.socetStream$ = this.socketService.createStream().pipe(share());
-
-    setTimeout(() => {
-      this.socetStream$.subscribe((socketData) => {
-        if (socketData) {
-          const message : {direction: string} = JSON.parse(socketData as string) ;
-          if(message.direction ===  messageDirections.inc){
-            this.notificationService.alertIncomingMessage();
-          }
-         
-        }
-      });
-    }, 1000);
 
     this.socetStream$.subscribe((socketData) => {
-      this.handleSocketEmmission(socketData as string);
+      const data = socketData as string;
+      this.soundNotification(data);
+      this.handleSocketEmmission(data);
     });
+  }
+
+  soundNotification(WSEvent: string) {
+    if (WSEvent) {
+      const message: { direction: string } = JSON.parse(WSEvent);
+      if (message.direction === messageDirections.inc) {
+        this.notificationService.alertIncomingMessage();
+      }
+    }
   }
 
   clearChats() {
