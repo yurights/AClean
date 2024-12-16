@@ -3,7 +3,7 @@
   <p>
     <mat-form-field appearance="outline">
       <mat-label>User</mat-label>
-      <input matInput />
+      <input matInput  [(ngModel)]="user"/>
       <mat-icon matSuffix>person</mat-icon>
       <!-- <mat-hint>Hint</mat-hint> -->
     </mat-form-field>
@@ -18,6 +18,6 @@
   </p>
 
   <div class="login-action">
-    <button mat-flat-button>Log in</button>
+    <button mat-flat-button (click)="logIn()">Log in</button>
   </div>
 </div>

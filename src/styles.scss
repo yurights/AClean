@@ -35,7 +35,7 @@ body {
   @include mat.form-field-overrides(
     (
       container-height: 40px,
-      container-vertical-padding: 5px,
+      container-vertical-padding: 10px,
     )
   );
 }

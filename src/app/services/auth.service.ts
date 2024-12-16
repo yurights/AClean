@@ -14,4 +14,8 @@ export class AuthService {
       return false;
     }
   }
+
+  setCurrentUser(user: string) {
+    this.currentUser = user;
+  }
 }
