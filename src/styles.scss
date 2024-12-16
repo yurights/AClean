@@ -32,6 +32,12 @@ body {
       button-color: var(--color-bg),
     )
   );
+  @include mat.form-field-overrides(
+    (
+      container-height: 40px,
+      container-vertical-padding: 5px,
+    )
+  );
 }
 
 .mat-mdc-tooltip {
