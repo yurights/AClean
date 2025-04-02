@@ -26,4 +26,4 @@ jobs:
         run: npm run build
 
       - name: Deploy to GitHub Pages
-        run: npx angular-cli-ghpages --dir=dist/AClean/browser
+        run: npx angular-cli-ghpages --dir=dist
